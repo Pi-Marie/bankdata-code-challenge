@@ -1,2 +1,2 @@
 # bankdata-code-challenge
-This is my repository for Bankdata code challenge
+This is my repository for the bankdata code challenge.
