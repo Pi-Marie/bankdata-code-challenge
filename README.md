@@ -5,7 +5,7 @@ The project is written in Java and uses Quarkus.
 
 ## Running the application in dev mode
 
-You can run the application in dev mode by the following command:
+Open Docker Desktop and run the application in dev mode by the following command:
 
 ```shell script
 ./mvnw quarkus:dev
@@ -16,7 +16,7 @@ You can run the application in dev mode by the following command:
 
 ## Hitting the endpoints
 
-# Create a new account
+### Create a new account
 
 - Substitude 'FIRST-NAME' with the first name
 - Substitude 'LAST-NAME' with the last name
@@ -27,7 +27,7 @@ curl -X POST http://localhost:8080/accounts \
      -d '{"firstName": "FIRST-NAME", "lastName": "LAST-NAME"}'
 ```
 
-# Deposit money to an account
+### Deposit money to an account
 
 - Substitude 'ID' with the ID of the account
 - Substitude 'AMOUNT' with the amount of DKK
@@ -38,7 +38,7 @@ curl -X POST http://localhost:8080/accounts/deposit/ID \
      -d '{"amount": AMOUNT}'
 ```
 
-# Transfer money between two accounts
+### Transfer money between two accounts
 
 - Substitude 'FROM-ID' with the ID of the account you want to withdraw money from
 - Substitude 'TO-ID' with the ID of the account you want to deposit money to
@@ -50,7 +50,7 @@ curl -X POST http://localhost:8080/accounts/transaction/FROM-ID \
      -d '{"toAccountId": TO-ID, "amount": AMOUNT}'
 ```
 
-# Get the balance of an account
+### Get the balance of an account
 
 - Substitude 'ID' with the ID of the account
 
@@ -58,19 +58,21 @@ curl -X POST http://localhost:8080/accounts/transaction/FROM-ID \
 curl -X GET http://localhost:8080/accounts/balance/ID
 ```
 
-# Get all accounts
+### Get all accounts
 
 ```shell script
 curl -X GET http://localhost:8080/accounts
 ```
 
-# Get the exchange rate from DKK to USD
+### Get the exchange rate from DKK to USD
 
 ```shell script
 curl -X GET http://localhost:8080/accounts/USD
 ```
 
-# Get the exchange rates from DKK to USD at 1st of January 2005-2015, excluding 2012 and including today's rate
+### Get the historical exchange rates from DKK to USD
+
+All exchange rates at 1st of January 2005-2015, excluding 2012 and including today's rate are found.
 
 The implementation for the endpoint GET http://localhost:8080/accounts/history is provided in the project. 
 However due to payment requirements, the implementation has not been tested and is therfore commented out.

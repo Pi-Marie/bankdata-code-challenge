@@ -52,7 +52,7 @@ public class AccountService {
             throw new BadRequestException("Name must be provided");
         }
         
-        repository.persist(account); // tjek hvad dette gør
+        repository.persist(account);
         return account;
     }
 
