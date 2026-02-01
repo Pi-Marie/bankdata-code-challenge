@@ -1,6 +1,6 @@
 package org.acme.resources;
 
-import org.acme.dtos.internal.*;
+import org.acme.dtos.*;
 import org.acme.entities.Account;
 import org.acme.services.AccountService;
 import jakarta.inject.Inject;
@@ -8,6 +8,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 import jakarta.ws.rs.core.Response;
+import io.smallrye.mutiny.Uni;
 
 
 @Path("/accounts")
@@ -17,15 +18,6 @@ public class AccountResource {
 
     @Inject
     AccountService service;
-
-    /*
-    @POST
-    public Account create(AccountDto dto) {
-        Account account = new Account(dto.getFirstName(), dto.getLastName());
-        account = service.create(account);
-        return new AccountOutputDto(account.getBalance(), account.getFirstName(), account.getLastName());
-    }
-    */
    
     @GET
     public List<Account> getAll() {
@@ -33,13 +25,19 @@ public class AccountResource {
     }
 
     @POST
-    public Account create(Account account) {
+    public Account create(AccountInputDto dto) {
+        
+        if (dto.getFirstName() == null) { throw new BadRequestException("First name must be provided"); }
+        if (dto.getLastName() == null) { throw new BadRequestException("Last name must be provided"); }
+
+        Account account = new Account(dto.getFirstName(), dto.getLastName());
+
         return service.create(account);
     }
 
     @POST
-    @Path("/{id}/deposit")
-    public Account depositMoney(@PathParam("id") Long id, DepositMoneyDto dto) {
+    @Path("/deposit/{id}")
+    public Account depositMoney(@PathParam("id") Long id, DepositInputDto dto) {
 
         if (dto.getAmount() == null) { throw new BadRequestException("Amount of money must be provided"); }
 
@@ -47,11 +45,11 @@ public class AccountResource {
     }
 
     @POST
-    @Path("/{fromId}/transaction")
-    public Response transferMoney(@PathParam("fromId") Long fromId, TransferMoneyDto dto) {
+    @Path("/transaction/{fromId}")
+    public Response transferMoney(@PathParam("fromId") Long fromId, TransactionInputDto dto) {
 
         if (dto.getToAccountId() == null) { throw new BadRequestException("Receiving account must be provided"); }
-        if (dto.getAmount() == null || dto.getAmount() < 0) { throw new BadRequestException("Amount of money provided and positive"); }
+        if (dto.getAmount() == null) { throw new BadRequestException("Amount of money must be provided"); }
 
         service.transferMoney(fromId, dto.getToAccountId(), dto.getAmount());
 
@@ -59,22 +57,24 @@ public class AccountResource {
     }
 
     @GET
-    @Path("/{id}/balance")
+    @Path("/balance/{id}")
     public float getBalance(@PathParam("id") Long id) {
         return service.getBalance(id);
     }
 
     @GET
     @Path("/USD")
-    public USDRateResponse getExchangeRate() {
+    public USDRateOutputDto getExchangeRate() {
         return service.getUSDRate();
     }
 
+    /*
     @GET
-    @Path("/historical")
-    public HistoricalDataResponse getHistoricalData() {
+    @Path("/history")
+    public Uni<HistoryOutputDto> getHistoricalData() {
         return service.getHistoricalData();
     }
+    */
 
         
 

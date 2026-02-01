@@ -1,4 +1,4 @@
-package org.acme.dtos.internal;
+package org.acme.dtos;
 
 public class AccountInputDto {
 
@@ -12,11 +12,6 @@ public class AccountInputDto {
         this.lastName = lastName;
     }
 
-    // Getters
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
-
-    // Setters, do I need these?
-    public void setFirstName(String name) { this.firstName = name; }
-    public void setLastName(String name) { this.lastName = name; }
 }

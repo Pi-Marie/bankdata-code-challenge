@@ -1,6 +1,6 @@
-package org.acme.dtos.external;
+package org.acme.clients.exchangeapi;
 
-public class ExchangeRateApiResponse {
+public class ExchangeRateApiDto {
     public String result;
     public String base_code;
     public String target_code;

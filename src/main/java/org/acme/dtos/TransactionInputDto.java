@@ -1,12 +1,12 @@
-package org.acme.dtos.internal;
+package org.acme.dtos;
 
-public class TransferMoneyDto {
+public class TransactionInputDto {
     private Long toAccountId;
     private Float amount;
 
-    public TransferMoneyDto() {}
+    public TransactionInputDto() {}
 
-    public TransferMoneyDto(Long toAccountId, Float amount) {
+    public TransactionInputDto(Long toAccountId, Float amount) {
         this.toAccountId = toAccountId;
         this.amount = amount;
     }

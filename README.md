@@ -1,64 +1,77 @@
-# bankdata
+## bankdata-code-challenge
 
-This project uses Quarkus.
+This is my repository for the bankdata code challenge.
+The project is written in Java and uses Quarkus.
 
 ## Running the application in dev mode
 
-You can run your application in dev mode by the following command:
+You can run the application in dev mode by the following command:
 
 ```shell script
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+> **_NOTE:_**  Quarkus ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
 
-## Packaging and running the application
 
-The application can be packaged using:
+## Hitting the endpoints
 
-```shell script
-./mvnw package
-```
+# Create a new account
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
+- Substitude 'FIRST-NAME' with the first name
+- Substitude 'LAST-NAME' with the last name
 
 ```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+curl -X POST http://localhost:8080/accounts \
+     -H "Content-Type: application/json" \
+     -d '{"firstName": "FIRST-NAME", "lastName": "LAST-NAME"}'
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+# Deposit money to an account
 
-## Creating a native executable
-
-You can create a native executable using:
+- Substitude 'ID' with the ID of the account
+- Substitude 'AMOUNT' with the amount of DKK
 
 ```shell script
-./mvnw package -Dnative
+curl -X POST http://localhost:8080/accounts/deposit/ID \
+     -H "Content-Type: application/json" \
+     -d '{"amount": AMOUNT}'
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+# Transfer money between two accounts
+
+- Substitude 'FROM-ID' with the ID of the account you want to withdraw money from
+- Substitude 'TO-ID' with the ID of the account you want to deposit money to
+- Substitude 'AMOUNT' with the amount of DKK to transfer
 
 ```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+curl -X POST http://localhost:8080/accounts/transaction/FROM-ID \
+     -H "Content-Type: application/json" \
+     -d '{"toAccountId": TO-ID, "amount": AMOUNT}'
 ```
 
-You can then execute your native executable with: `./target/bankdata-1.0.0-SNAPSHOT-runner`
+# Get the balance of an account
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+- Substitude 'ID' with the ID of the account
 
-## Related Guides
+```shell script
+curl -X GET http://localhost:8080/accounts/balance/ID
+```
 
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
+# Get all accounts
 
-## Provided Code
+```shell script
+curl -X GET http://localhost:8080/accounts
+```
 
-### REST
+# Get the exchange rate from DKK to USD
 
-Easily start your REST Web Services
+```shell script
+curl -X GET http://localhost:8080/accounts/USD
+```
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+# Get the exchange rates from DKK to USD at 1st of January 2005-2015, excluding 2012 and including today's rate
+
+The implementation for the endpoint GET http://localhost:8080/accounts/history is provided in the project. 
+However due to payment requirements, the implementation has not been tested and is therfore commented out.
+

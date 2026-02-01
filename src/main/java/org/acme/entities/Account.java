@@ -17,7 +17,7 @@ public class Account {
 
     private String lastName;
 
-    public Account() {} // is this necessary??
+    public Account() {}
 
     public Account(String firstName, String lastName) {
         this.balance = 0f;
@@ -25,13 +25,11 @@ public class Account {
         this.lastName = lastName;
     }
 
-    // getters
     public Long getId() { return id; }
     public float getBalance() { return balance; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
 
-    // setters
     public void setFirstName(String name) { this.firstName = name; }
     public void setLastName(String name) { this.lastName = name; }
     public void setBalance(float balance) { this.balance = balance; }
